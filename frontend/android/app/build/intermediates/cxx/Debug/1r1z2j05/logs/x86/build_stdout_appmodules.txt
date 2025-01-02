@@ -1,0 +1,17 @@
+ninja: Entering directory `/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/.cxx/Debug/1r1z2j05/x86'
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/.cxx/Debug/1r1z2j05/x86
+[0/2] Re-checking globbed directories...
+[1/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/States.cpp.o
+[2/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/lottiereactnativeJSI-generated.cpp.o
+[3/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/EventEmitters.cpp.o
+[4/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/lottiereactnative-generated.cpp.o
+[5/10] Building CXX object CMakeFiles/appmodules.dir/OnLoad.cpp.o
+[6/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/ShadowNodes.cpp.o
+[7/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/Props.cpp.o
+[8/10] Building CXX object lottiereactnative_autolinked_build/CMakeFiles/react_codegen_lottiereactnative.dir/react/renderer/components/lottiereactnative/ComponentDescriptors.cpp.o
+[9/10] Building CXX object CMakeFiles/appmodules.dir/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o
+[10/10] Linking CXX shared library /Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/cxx/Debug/1r1z2j05/obj/x86/libappmodules.so

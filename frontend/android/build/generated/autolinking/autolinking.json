@@ -2,7 +2,153 @@
   "root": "/Users/labh/Desktop/Projects/MealBuddy/frontend",
   "reactNativePath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native",
   "reactNativeVersion": "0.76",
-  "dependencies": {},
+  "dependencies": {
+    "lottie-react-native": {
+      "root": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/lottie-react-native",
+      "name": "lottie-react-native",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/lottie-react-native/lottie-react-native.podspec",
+          "version": "7.1.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/lottie-react-native/android",
+          "packageImportPath": "import com.airbnb.android.react.lottie.LottiePackage;",
+          "packageInstance": "new LottiePackage()",
+          "buildTypes": [],
+          "libraryName": "lottiereactnative",
+          "componentDescriptors": [
+            "LottieAnimationViewComponentDescriptor"
+          ],
+          "cmakeListsPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/lottie-react-native/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-gesture-handler": {
+      "root": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-gesture-handler",
+      "name": "react-native-gesture-handler",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-gesture-handler/RNGestureHandler.podspec",
+          "version": "2.21.2",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-gesture-handler/android",
+          "packageImportPath": "import com.swmansion.gesturehandler.RNGestureHandlerPackage;",
+          "packageInstance": "new RNGestureHandlerPackage()",
+          "buildTypes": [],
+          "libraryName": "rngesturehandler_codegen",
+          "componentDescriptors": [
+            "RNGestureHandlerButtonComponentDescriptor",
+            "RNGestureHandlerRootViewComponentDescriptor"
+          ],
+          "cmakeListsPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-reanimated": {
+      "root": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated",
+      "name": "react-native-reanimated",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/RNReanimated.podspec",
+          "version": "3.16.6",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android",
+          "packageImportPath": "import com.swmansion.reanimated.ReanimatedPackage;",
+          "packageInstance": "new ReanimatedPackage()",
+          "buildTypes": [],
+          "libraryName": "rnreanimated",
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-safe-area-context": {
+      "root": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context",
+      "name": "react-native-safe-area-context",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context/react-native-safe-area-context.podspec",
+          "version": "5.0.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context/android",
+          "packageImportPath": "import com.th3rdwave.safeareacontext.SafeAreaContextPackage;",
+          "packageInstance": "new SafeAreaContextPackage()",
+          "buildTypes": [],
+          "libraryName": "safeareacontext",
+          "componentDescriptors": [
+            "RNCSafeAreaProviderComponentDescriptor",
+            "RNCSafeAreaViewComponentDescriptor"
+          ],
+          "cmakeListsPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-screens": {
+      "root": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens",
+      "name": "react-native-screens",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens/RNScreens.podspec",
+          "version": "4.4.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens/android",
+          "packageImportPath": "import com.swmansion.rnscreens.RNScreensPackage;",
+          "packageInstance": "new RNScreensPackage()",
+          "buildTypes": [],
+          "libraryName": "rnscreens",
+          "componentDescriptors": [
+            "RNSFullWindowOverlayComponentDescriptor",
+            "RNSScreenContainerComponentDescriptor",
+            "RNSScreenNavigationContainerComponentDescriptor",
+            "RNSScreenStackHeaderConfigComponentDescriptor",
+            "RNSScreenStackHeaderSubviewComponentDescriptor",
+            "RNSScreenStackComponentDescriptor",
+            "RNSSearchBarComponentDescriptor",
+            "RNSScreenComponentDescriptor",
+            "RNSScreenFooterComponentDescriptor",
+            "RNSScreenContentWrapperComponentDescriptor",
+            "RNSModalScreenComponentDescriptor"
+          ],
+          "cmakeListsPath": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    }
+  },
   "commands": [
     {
       "name": "bundle",
@@ -211,7 +357,8 @@
         },
         {
           "name": "--terminal <string>",
-          "description": "Launches the Metro Bundler in a new window using the specified terminal path."
+          "description": "Launches the Metro Bundler in a new window using the specified terminal path.",
+          "default": "vscode"
         },
         {
           "name": "--binary-path <string>",
@@ -370,7 +517,8 @@
         },
         {
           "name": "--terminal <string>",
-          "description": "Launches the Metro Bundler in a new window using the specified terminal path."
+          "description": "Launches the Metro Bundler in a new window using the specified terminal path.",
+          "default": "vscode"
         },
         {
           "name": "--appId <string>",
@@ -442,7 +590,9 @@
     "ios": {},
     "android": {}
   },
-  "assets": [],
+  "assets": [
+    "./src/assets/fonts"
+  ],
   "project": {
     "ios": {
       "sourceDir": "/Users/labh/Desktop/Projects/MealBuddy/frontend/ios",

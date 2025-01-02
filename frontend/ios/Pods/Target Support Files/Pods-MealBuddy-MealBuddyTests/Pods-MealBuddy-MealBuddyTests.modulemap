@@ -1,0 +1,6 @@
+module Pods_MealBuddy_MealBuddyTests {
+  umbrella header "Pods-MealBuddy-MealBuddyTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

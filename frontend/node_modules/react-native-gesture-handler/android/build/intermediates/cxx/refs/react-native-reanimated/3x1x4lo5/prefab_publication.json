@@ -1,0 +1,41 @@
+{
+  "installationFolder": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/intermediates/prefab_package/debug/prefab",
+  "gradlePath": ":react-native-reanimated",
+  "packageInfo": {
+    "packageName": "react-native-reanimated",
+    "packageSchemaVersion": 2,
+    "packageDependencies": [],
+    "modules": [
+      {
+        "moduleName": "reanimated",
+        "moduleHeaders": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/prefab-headers/reanimated",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "armeabi-v7a",
+            "abiApi": 24,
+            "abiNdkMajor": 26,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/intermediates/cxx/Debug/2w5l6s5y/obj/armeabi-v7a/libreanimated.so",
+            "abiAndroidGradleBuildJsonFile": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/.cxx/Debug/2w5l6s5y/armeabi-v7a/android_gradle_build.json"
+          }
+        ]
+      },
+      {
+        "moduleName": "worklets",
+        "moduleHeaders": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/prefab-headers/worklets",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "armeabi-v7a",
+            "abiApi": 24,
+            "abiNdkMajor": 26,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/intermediates/cxx/Debug/2w5l6s5y/obj/armeabi-v7a/libworklets.so",
+            "abiAndroidGradleBuildJsonFile": "/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/.cxx/Debug/2w5l6s5y/armeabi-v7a/android_gradle_build.json"
+          }
+        ]
+      }
+    ]
+  }
+}
