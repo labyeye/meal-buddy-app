@@ -39,7 +39,6 @@ const Login = ({ navigation }) => {
       console.error(err.response?.data);
     }
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ width: "100%", marginTop: 30, paddingLeft: 20 }}>
