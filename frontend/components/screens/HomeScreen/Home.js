@@ -26,7 +26,7 @@ const Home = () => {
   const slideX = useSharedValue(0); 
 
   const navigateToHome3 = () => {
-    navigation.navigate("GetStarted");
+    navigation.navigate("Login");
   };
 
   const gestureHandler = useAnimatedGestureHandler({

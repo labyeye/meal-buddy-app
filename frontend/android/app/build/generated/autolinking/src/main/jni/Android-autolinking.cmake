@@ -7,6 +7,7 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 set(REACTNATIVE_MERGED_SO true)
 
 add_subdirectory("/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/lottie-react-native/android/build/generated/source/codegen/jni/" lottiereactnative_autolinked_build)
+
 add_subdirectory("/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/" rngesturehandler_codegen_autolinked_build)
 add_subdirectory("/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/" rnreanimated_autolinked_build)
 add_subdirectory("/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context/android/src/main/jni/" safeareacontext_autolinked_build)
@@ -14,6 +15,7 @@ add_subdirectory("/Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/r
 
 set(AUTOLINKED_LIBRARIES
   react_codegen_lottiereactnative
+  
   react_codegen_rngesturehandler_codegen
   react_codegen_rnreanimated
   react_codegen_safeareacontext

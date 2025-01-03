@@ -9,6 +9,7 @@ MERGED from [:lottie-react-native] /Users/labh/Desktop/Projects/MealBuddy/fronte
 MERGED from [:react-native-gesture-handler] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-device-info] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-device-info/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-reanimated] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.react:react-android:0.76.5] /Users/labh/.gradle/caches/8.10.2/transforms/1ae2c2bcce3cae52224b57e1fa01bdc7/transformed/react-android-0.76.5-debug/AndroidManifest.xml:2:1-24:12
 MERGED from [com.airbnb.android:lottie:6.5.2] /Users/labh/.gradle/caches/8.10.2/transforms/91142747c2e0098e08569cb6b77f73e2/transformed/lottie-6.5.2/AndroidManifest.xml:2:1-9:12
@@ -77,6 +78,7 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/labh/.gradle/cache
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/labh/.gradle/caches/8.10.2/transforms/39c1df6c0d4221e9c100e671db23e124/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /Users/labh/.gradle/caches/8.10.2/transforms/73b138757879467b2c1af177b92b2cfa/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/labh/.gradle/caches/8.10.2/transforms/1ab6a7b65eabe2fa6e5e35211751cd76/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.fbjni:fbjni:0.6.0] /Users/labh/.gradle/caches/8.10.2/transforms/8b60b4f75564ac53567672df7a1c9a73/transformed/fbjni-0.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.soloader:soloader:0.12.1] /Users/labh/.gradle/caches/8.10.2/transforms/91d072f7c634bb12cf3f00cd58838d23/transformed/soloader-0.12.1/AndroidManifest.xml:2:1-17:12
 	package
@@ -118,6 +120,8 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/labh/.gradle/caches/
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/labh/.gradle/caches/8.10.2/transforms/bb8ef6314968f474a16a8e1eb7639980/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/labh/.gradle/caches/8.10.2/transforms/105227adbb430ba9bb6e493d90288a88/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/labh/.gradle/caches/8.10.2/transforms/105227adbb430ba9bb6e493d90288a88/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:11:5-20
+MERGED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.12.1] /Users/labh/.gradle/caches/8.10.2/transforms/91d072f7c634bb12cf3f00cd58838d23/transformed/soloader-0.12.1/AndroidManifest.xml:11:5-15:19
 MERGED from [com.facebook.soloader:soloader:0.12.1] /Users/labh/.gradle/caches/8.10.2/transforms/91d072f7c634bb12cf3f00cd58838d23/transformed/soloader-0.12.1/AndroidManifest.xml:11:5-15:19
 	android:extractNativeLibs
@@ -187,6 +191,8 @@ MERGED from [:react-native-safe-area-context] /Users/labh/Desktop/Projects/MealB
 MERGED from [:react-native-safe-area-context] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:react-native-device-info] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-device-info/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:react-native-device-info] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-device-info/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-reanimated] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-reanimated] /Users/labh/Desktop/Projects/MealBuddy/frontend/node_modules/react-native-reanimated/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.react:react-android:0.76.5] /Users/labh/.gradle/caches/8.10.2/transforms/1ae2c2bcce3cae52224b57e1fa01bdc7/transformed/react-android-0.76.5-debug/AndroidManifest.xml:10:5-44
@@ -323,6 +329,8 @@ MERGED from [androidx.print:print:1.0.0] /Users/labh/.gradle/caches/8.10.2/trans
 MERGED from [androidx.print:print:1.0.0] /Users/labh/.gradle/caches/8.10.2/transforms/73b138757879467b2c1af177b92b2cfa/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/labh/.gradle/caches/8.10.2/transforms/1ab6a7b65eabe2fa6e5e35211751cd76/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/labh/.gradle/caches/8.10.2/transforms/1ab6a7b65eabe2fa6e5e35211751cd76/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fbjni:fbjni:0.6.0] /Users/labh/.gradle/caches/8.10.2/transforms/8b60b4f75564ac53567672df7a1c9a73/transformed/fbjni-0.6.0/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fbjni:fbjni:0.6.0] /Users/labh/.gradle/caches/8.10.2/transforms/8b60b4f75564ac53567672df7a1c9a73/transformed/fbjni-0.6.0/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.soloader:soloader:0.12.1] /Users/labh/.gradle/caches/8.10.2/transforms/91d072f7c634bb12cf3f00cd58838d23/transformed/soloader-0.12.1/AndroidManifest.xml:7:5-9:41
@@ -431,6 +439,10 @@ action#androidx.profileinstaller.action.BENCHMARK_OPERATION
 ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/labh/.gradle/caches/8.10.2/transforms/d2413cd10ed59e0d169b327a01b26697/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
 	android:name
 		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/labh/.gradle/caches/8.10.2/transforms/d2413cd10ed59e0d169b327a01b26697/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:9:5-110
+	android:name
+		ADDED from [com.android.installreferrer:installreferrer:1.1.2] /Users/labh/.gradle/caches/8.10.2/transforms/03d5d7e0c80d8d43aad1417c0d8904fc/transformed/installreferrer-1.1.2/AndroidManifest.xml:9:22-107
 meta-data#com.facebook.soloader.enabled
 ADDED from [com.facebook.soloader:soloader:0.12.1] /Users/labh/.gradle/caches/8.10.2/transforms/91d072f7c634bb12cf3f00cd58838d23/transformed/soloader-0.12.1/AndroidManifest.xml:12:9-14:37
 	android:value

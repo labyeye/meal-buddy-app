@@ -1,4 +1,4 @@
-#Thu Jan 02 12:14:17 IST 2025
+#Fri Jan 03 21:33:16 IST 2025
 base.0=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.10=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeLibDexDebug/9/classes.dex
@@ -6,6 +6,7 @@ base.11=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/interm
 base.12=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeLibDexDebug/1/classes.dex
 base.13=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeLibDexDebug/11/classes.dex
 base.14=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeLibDexDebug/3/classes.dex
+base.15=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeLibDexDebug/4/classes.dex
 base.2=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/14/classes.dex
 base.3=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/2/classes.dex
 base.4=/Users/labh/Desktop/Projects/MealBuddy/frontend/android/app/build/intermediates/dex/debug/mergeLibDexDebug/5/classes.dex
@@ -21,6 +22,7 @@ path.11=classes2.dex
 path.12=1/classes.dex
 path.13=11/classes.dex
 path.14=3/classes.dex
+path.15=4/classes.dex
 path.2=14/classes.dex
 path.3=2/classes.dex
 path.4=5/classes.dex
@@ -36,6 +38,7 @@ renamed.11=classes12.dex
 renamed.12=classes13.dex
 renamed.13=classes14.dex
 renamed.14=classes15.dex
+renamed.15=classes16.dex
 renamed.2=classes3.dex
 renamed.3=classes4.dex
 renamed.4=classes5.dex
