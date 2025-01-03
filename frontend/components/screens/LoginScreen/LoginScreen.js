@@ -33,7 +33,6 @@ const Login = ({ navigation }) => {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
       console.log(res.data); // Handle login response (e.g., store token, navigate)
-      // Navigate to Dashboard on successful login
       navigation.navigate('Dashboard');
     } catch (err) {
       console.error(err.response?.data);
