@@ -31,24 +31,33 @@ const Login = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   // Handle login logic
-  const handleLogin = async () => {
-    setLoading(true); // Start loader
-    setErrorMessage(""); // Reset error message
+  const getBackendUrl = () => {
+  if (Platform.OS === 'ios') {
+    return "http://localhost:2000/api/auth/login"; // Works for iOS on the local machine
+  } else {
+    return "http://10.0.2.2:2000/api/auth/login"; // Works for Android Emulator
+  }
+};
 
-    try {
-      const response = await axios.post("http://localhost:2000/api/auth/login", { email, password });
-      console.log("Login successful:", response.data);
+const handleLogin = async () => {
+  setLoading(true); // Start loader
+  setErrorMessage(""); // Reset error message
 
-      // Navigate to Dashboard or next screen
-      navigation.navigate("Dashboard");
-    } catch (err) {
-      const error = err.response?.data?.message || "Something went wrong. Please try again.";
-      setErrorMessage(error);
-      console.error("Login error:", error);
-    } finally {
-      setLoading(false); // Stop loader
-    }
-  };
+  try {
+    const response = await axios.post(getBackendUrl(), { email, password });
+    console.log("Login successful:", response.data);
+    
+    // Navigate to Dashboard or next screen
+    navigation.navigate("Dashboard");
+  } catch (err) {
+    const error = err.response?.data?.message || "Something went wrong. Please try again.";
+    setErrorMessage(error);
+    console.error("Login error:", error);
+  } finally {
+    setLoading(false); // Stop loader
+  }
+};
+
 
   return (
     <SafeAreaView style={styles.container}>
