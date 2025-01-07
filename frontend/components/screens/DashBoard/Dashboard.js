@@ -12,7 +12,7 @@ import axios from 'axios';
 
 const Dashboard = ({ route, navigation }) => {
   const { userName = 'User' } = route.params || {};
-
+  
   const getBackendUrl = () => {
     if (Platform.OS === 'ios') {
       return 'http://localhost:2000/api/auth/logout'; // iOS Backend URL
@@ -20,7 +20,7 @@ const Dashboard = ({ route, navigation }) => {
       return 'http://10.0.2.2:2000/api/auth/logout'; // Android Emulator Backend URL
     }
   };
-
+  
   const handleLogout = async () => {
     try {
       Alert.alert(
@@ -38,7 +38,6 @@ const Dashboard = ({ route, navigation }) => {
 
               await axios.post(getBackendUrl(), {}, config);
 
-              // Clear local storage and navigate to login
               await AsyncStorage.removeItem('userToken');
               await AsyncStorage.removeItem('userName');
               navigation.replace('Login');
@@ -52,10 +51,11 @@ const Dashboard = ({ route, navigation }) => {
       Alert.alert('Error', 'Something went wrong during logout.');
     }
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome, {userName}!</Text>
+      <Text style={styles.welcomeText}>Welcome, {name}!</Text>
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
