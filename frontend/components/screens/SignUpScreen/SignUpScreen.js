@@ -52,24 +52,27 @@ const Signup = ({ navigation }) => {
       setError("Password must be at least 6 characters long.");
       return;
     }
-
+  
     // Clear error before API call
     setError("");
-
+  
     try {
       const res = await axios.post("http://localhost:2000/api/auth/signup", {
+        name: "User", // Add name field if required
         email,
-        phoneNumber,
+        phone: phoneNumber,
         password,
+        confirmPassword,
       });
       console.log(res.data);
       Alert.alert("Success", "You have successfully signed up!");
       navigation.navigate("Login");
     } catch (err) {
       console.error(err.response?.data);
-      setError(err.response?.data?.msg || "Server error. Please try again.");
+      setError(err.response?.data?.message || "Server error. Please try again.");
     }
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
