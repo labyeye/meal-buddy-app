@@ -12,6 +12,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
   const { width, height } = useWindowDimensions();
@@ -45,9 +46,7 @@ const handleLogin = async () => {
 
   try {
     const response = await axios.post(getBackendUrl(), { email, password });
-    console.log("Login successful:", response.data);
-    
-    // Navigate to Dashboard or next screen
+    AsyncStorage.setItem("userToken", response.data.token); // Store token
     navigation.navigate("Dashboard");
   } catch (err) {
     const error = err.response?.data?.message || "Something went wrong. Please try again.";

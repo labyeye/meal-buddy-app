@@ -11,11 +11,13 @@ import {
   Alert,
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Signup = ({ navigation }) => {
   const { width, height } = useWindowDimensions();
 
   // State variables
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +28,7 @@ const Signup = ({ navigation }) => {
   const lottieSize = height > 900 ? 350 : height < 700 ? 150 : 190;
   const fontSize = width > 400 ? 49 : 30;
   const inputWidth = width > 380 ? 340 : 290;
-  const inputHeight = 50;
+  const inputHeight = 40;
   const buttonWidth = width > 380 ? 280 : 250;
   const buttonHeight = 50;
 
@@ -58,7 +60,7 @@ const Signup = ({ navigation }) => {
   
     try {
       const res = await axios.post("http://localhost:2000/api/auth/signup", {
-        name: "User", // Add name field if required
+        name,
         email,
         phone: phoneNumber,
         password,
@@ -66,7 +68,8 @@ const Signup = ({ navigation }) => {
       });
       console.log(res.data);
       Alert.alert("Success", "You have successfully signed up!");
-      navigation.navigate("Login");
+      AsyncStorage.setItem("userToken", res.data.token);
+      navigation.navigate("Dashboard");
     } catch (err) {
       console.error(err.response?.data);
       setError(err.response?.data?.message || "Server error. Please try again.");
@@ -86,6 +89,15 @@ const Signup = ({ navigation }) => {
         source={require("../../../src/assets/lottie/pizza.json")}
         autoPlay
         loop
+      />
+      <TextInput
+        style={[styles.input, { width: inputWidth, height: inputHeight }]}
+        placeholder="Enter Name"
+        placeholderTextColor="#999"
+        value={name}
+        onChangeText={setName}
+        keyboardType="email-address"
+        accessibilityLabel="Email Address"
       />
 
       <TextInput
