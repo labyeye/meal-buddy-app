@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
 import {
   SafeAreaView,
   Text,
@@ -10,8 +11,31 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const Dashboard = ({ route, navigation }) => {
-  const { userName = 'User' } = route.params || {};
+const Dashboard = ({ navigation }) => {
+  const [name, setName] = useState('User'); // State to store the user's name
+  
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken'); // Retrieve token
+        console.log('Token:', token);
+        if (token) {
+          const decodedToken = jwtDecode(token); // Decode token
+          if (decodedToken?.name) {
+            setName(decodedToken.name); // Set the name from the token
+          } else {
+            console.error('Name not found in token.');
+          }
+        } else {
+          console.error('Token not found.');
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    };
+
+    fetchUserName();
+  }, []); // Runs only once when the component mounts
   
   const getBackendUrl = () => {
     if (Platform.OS === 'ios') {
@@ -20,7 +44,7 @@ const Dashboard = ({ route, navigation }) => {
       return 'http://10.0.2.2:2000/api/auth/logout'; // Android Emulator Backend URL
     }
   };
-  
+
   const handleLogout = async () => {
     try {
       Alert.alert(
@@ -51,12 +75,10 @@ const Dashboard = ({ route, navigation }) => {
       Alert.alert('Error', 'Something went wrong during logout.');
     }
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.welcomeText}>Welcome, {name}!</Text>
-
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
