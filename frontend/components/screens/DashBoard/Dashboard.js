@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import jwtDecode from 'jwt-decode';
+import React from 'react';
+import jwtDecode from 'jwt-decode'; // Ensure this is the default import
 import {
   SafeAreaView,
   Text,
@@ -11,37 +11,14 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const Dashboard = ({ navigation }) => {
-  const [name, setName] = useState('User'); // State to store the user's name
-  
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken'); // Retrieve token
-        console.log('Token:', token);
-        if (token) {
-          const decodedToken = jwtDecode(token); // Decode token
-          if (decodedToken?.name) {
-            setName(decodedToken.name); // Set the name from the token
-          } else {
-            console.error('Name not found in token.');
-          }
-        } else {
-          console.error('Token not found.');
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
-    };
+const Dashboard = ({ route, navigation }) => {
+  const { name = 'User' } = route.params || {};
 
-    fetchUserName();
-  }, []); // Runs only once when the component mounts
-  
   const getBackendUrl = () => {
     if (Platform.OS === 'ios') {
-      return 'http://localhost:2000/api/auth/logout'; // iOS Backend URL
+      return 'http://localhost:2000/api/auth/logout'; 
     } else {
-      return 'http://10.0.2.2:2000/api/auth/logout'; // Android Emulator Backend URL
+      return 'http://10.0.2.2:2000/api/auth/logout'; 
     }
   };
 
@@ -55,20 +32,30 @@ const Dashboard = ({ navigation }) => {
           {
             text: 'Logout',
             onPress: async () => {
-              const token = await AsyncStorage.getItem('userToken'); // Retrieve token
-              const config = {
-                headers: { Authorization: `Bearer ${token}` },
-              };
+              try {
+                const token = await AsyncStorage.getItem('userToken');
+                if (token) {
+                  const decodedToken = jwtDecode(token);
+                  const config = {
+                    headers: { Authorization: `Bearer ${token}` },
+                  };
 
-              await axios.post(getBackendUrl(), {}, config);
+                  // Inform the backend about logout
+                  await axios.post(getBackendUrl(), {}, config);
+                }
+                await AsyncStorage.removeItem('userToken');
+                await AsyncStorage.removeItem('userName');
 
-              await AsyncStorage.removeItem('userToken');
-              await AsyncStorage.removeItem('userName');
-              navigation.replace('Login');
+                navigation.replace('Login'); 
+              } catch (error) {
+                console.error('Logout error:', error);
+                Alert.alert('Error', 'Failed to contact the server, but you have been logged out.');
+                navigation.replace('Login'); // Handle fallback navigation
+              }
             },
           },
         ],
-        { cancelable: true },
+        { cancelable: true }
       );
     } catch (error) {
       console.error('Logout error:', error);

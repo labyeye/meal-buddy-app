@@ -8,7 +8,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.76.5)
   - hermes-engine/Pre-built (0.76.5)
   - lottie-ios (4.5.0)
-  - lottie-react-native (7.1.0):
+  - lottie-react-native (7.2.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1265,7 +1265,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (5.0.0):
+  - react-native-safe-area-context (5.1.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1278,8 +1278,8 @@ PODS:
     - React-featureflags
     - React-graphics
     - React-ImageManager
-    - react-native-safe-area-context/common (= 5.0.0)
-    - react-native-safe-area-context/fabric (= 5.0.0)
+    - react-native-safe-area-context/common (= 5.1.0)
+    - react-native-safe-area-context/fabric (= 5.1.0)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -1288,7 +1288,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/common (5.0.0):
+  - react-native-safe-area-context/common (5.1.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1309,7 +1309,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/fabric (5.0.0):
+  - react-native-safe-area-context/fabric (5.1.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1772,6 +1772,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNVectorIcons (10.2.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - SocketRocket (0.7.1)
   - Yoga (0.0.0)
 
@@ -1846,6 +1867,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1991,6 +2013,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -2002,7 +2026,7 @@ SPEC CHECKSUMS:
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
   hermes-engine: 06a9c6900587420b90accc394199527c64259db4
   lottie-ios: a881093fab623c467d3bce374367755c272bdd59
-  lottie-react-native: f6bc5e59ad94cb15984cfe5010e803532259c056
+  lottie-react-native: fd26cfcfde5a97c0fe61d8a1986e88ec6148f37f
   RCT-Folly: 84578c8756030547307e4572ab1947de1685c599
   RCTDeprecation: fb7d408617e25d7f537940000d766d60149c5fea
   RCTRequired: 9aaf0ffcc1f41f0c671af863970ef25c422a9920
@@ -2032,7 +2056,7 @@ SPEC CHECKSUMS:
   React-logger: ae95f0effa7e1791bd6f7283caddca323d4fbc1e
   React-Mapbuffer: 7eb5d69e1154e7743487ef0c8d7261e5b59afb32
   React-microtasksnativemodule: 01dd998649ff5f8814846b7eee84c4d57f5d3671
-  react-native-safe-area-context: f145b8906585d648f9f9c7dfa3885bac54f38fcc
+  react-native-safe-area-context: 0d8827b2420dfb4c8a8e27639585e61b912261be
   React-nativeconfig: f7ab6c152e780b99a8c17448f2d99cf5f69a2311
   React-NativeModulesApple: 9aeb901b9bfcc9235e912445fb3cf4780a99baf4
   React-perflogger: 16e049953d21b37e9871ddf0b02f414e12ff14ba
@@ -2064,6 +2088,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: e1dcb274c17ca0680a04d7ff357e35e37c384185
   RNReanimated: ee9a749b8f2ee2a743d2dd7b4ab66f22d63f3bda
   RNScreens: 351f431ef2a042a1887d4d90e1c1024b8ae9d123
+  RNVectorIcons: a24016b773380b1aa37fca501ec6b94a951890a0
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: fcc198acd4a55599b3468cfb6ebc526baff5f06e
 
