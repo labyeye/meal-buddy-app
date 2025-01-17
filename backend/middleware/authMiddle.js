@@ -1,38 +1,25 @@
+const jwt = require('jsonwebtoken');
 
-const decodeToken = async (req, res, next) => {
-    let token;
-    if (req.headers.authorization?.startsWith("Bearer")) {
-      try {
-        token = req.headers.authorization?.split(" ")[1];
-        if (!token) {
-          res.status(401).send({ message: "Not Authorized,No token" });
-        }
-  
-        const decoded = jwt.verify(token, appConfig.jwtSecret);
-  
-        if (decoded) {
-          return decoded;
-        }
-  
-        next();
-      } catch (error) {
-        res.status(401).send({ message: "Not Authorized" });
-      }
-    }
-    if (!token) {
-      res.status(401).send({ message: "Not Authorized,No token" });
-    }
-  };
+const tokenBlacklist = new Set();
 
+const decodeToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
 
-const verifyToken = async (req, res, next) => {
-    const decoded = await decodeToken(req, res, next);
-  
-    if (decoded) {
-      req.user = decoded;
-      return next();
-    }
+  if (!token) {
+    return res.status(401).json({ message: 'Not authorized, token missing' });
   }
 
+  if (tokenBlacklist.has(token)) {
+    return res.status(401).json({ message: 'Token has been invalidated' });
+  }
 
-export {verifyToken};
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+};
+
+module.exports = { verifyToken: decodeToken, tokenBlacklist };

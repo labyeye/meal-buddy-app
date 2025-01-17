@@ -5,20 +5,21 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-if (!process.env.MONGODB_URI || !process.env.JWT_SECRET) {
-  console.error("Missing required environment variables. Please check your .env file.");
-  process.exit(1); 
-}mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+
+const { MONGODB_URI, JWT_SECRET, PORT = 2000 } = process.env;
+
+if (!MONGODB_URI || !JWT_SECRET) {
+  console.error('Missing required environment variables. Please check your .env file.');
+  process.exit(1);
+}
+
+mongoose
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => {
     console.error('MongoDB connection error:', err);
-    process.exit(1); 
+    process.exit(1);
   });
-
-const PORT =  2000;
 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
