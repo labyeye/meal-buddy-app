@@ -23,6 +23,8 @@ mongoose
 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+const foodRoutes = require('./routes/food');
+app.use('/api/food', foodRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

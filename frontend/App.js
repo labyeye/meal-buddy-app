@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from './components/screens/HomeScreen/Home';
 import Login from './components/screens/LoginScreen/LoginScreen';
 import Signup from './components/screens/SignUpScreen/SignUpScreen';
 import Forgot from './components/screens/ForgotPassword/ForgotPassword';
 import Dashboard from './components/screens/DashBoard/Dashboard';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import ChatGpt from './components/screens/ChatGpt/ChatGpt';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,17 +21,27 @@ const DashboardTabs = () => (
       component={Dashboard}
       options={{
         headerShown: false,
-        tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({color, size}) => (
           <IonIcons name="home-outline" size={size} color={color} />
         ),
       }}
     />
     <Tab.Screen
-      name="Tab2"
+      name="ChatGpt"
+      component={ChatGpt}
+      options={{
+        headerShown: false,
+        tabBarIcon: ({color, size}) => (
+          <IonIcons name="chatbubble-outline" size={30} color="#4F8EF7" />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Settings"
       component={Dashboard}
       options={{
         headerShown: false,
-        tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({color, size}) => (
           <IonIcons name="settings-outline" size={size} color={color} />
         ),
       }}
@@ -71,29 +82,29 @@ const App = () => {
           <Stack.Screen
             name="Dashboard"
             component={DashboardTabs}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
         ) : (
           <>
             <Stack.Screen
               name="Home"
               component={Home}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="Login"
               component={Login}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="SignUp"
               component={Signup}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="Forgot"
               component={Forgot}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
           </>
         )}
