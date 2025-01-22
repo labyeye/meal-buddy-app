@@ -71,7 +71,6 @@ const App = () => {
   }, []);
 
   if (isLoading) {
-    // Display a loading spinner or splash screen while checking the token
     return null;
   }
 
@@ -86,6 +85,7 @@ const App = () => {
           />
         ) : (
           <>
+          
             <Stack.Screen
               name="Home"
               component={Home}

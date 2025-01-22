@@ -36,24 +36,25 @@ const Login = ({ navigation }) => {
   if (Platform.OS === 'ios') {
     return "http://localhost:2000/api/auth/login"; // Works for iOS on the local machine
   } else {
-    return "http://10.0.2.2:2000/api/auth/login"; // Works for Android Emulator
+    return "http://10.0.2.2:2000/api/auth/login"; 
   }
 };
 
 const handleLogin = async () => {
-  setLoading(true); // Start loader
-  setErrorMessage(""); // Reset error message
+  setLoading(true);
+  setErrorMessage(""); 
 
   try {
     const response = await axios.post(getBackendUrl(), { email, password });
-    AsyncStorage.setItem("userToken", response.data.token); // Store token
-    navigation.navigate("Dashboard");
+    AsyncStorage.setItem("userToken", response.data.token); 
+    
+    navigation.navigate("Tab1");
   } catch (err) {
     const error = err.response?.data?.message || "Something went wrong. Please try again.";
     setErrorMessage(error);
     console.error("Login error:", error);
   } finally {
-    setLoading(false); // Stop loader
+    setLoading(false); 
   }
 };
 

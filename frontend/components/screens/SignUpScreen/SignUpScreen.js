@@ -69,7 +69,7 @@ const Signup = ({ navigation }) => {
       console.log(res.data);
       Alert.alert("Success", "You have successfully signed up!");
       AsyncStorage.setItem("userToken", res.data.token);
-      navigation.navigate("Dashboard");
+      navigation.navigate("Login");
     } catch (err) {
       console.error(err.response?.data);
       setError(err.response?.data?.message || "Server error. Please try again.");

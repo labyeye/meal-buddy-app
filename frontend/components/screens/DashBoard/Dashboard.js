@@ -14,6 +14,7 @@ import {
   Pressable,
   useWindowDimensions,
 } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -25,6 +26,7 @@ const Dashboard = ({route, navigation}) => {
   const {name = 'User'} = route.params || {};
   const [category, setCategory] = useState('All');
   const [foods, setFoods] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   const categories = [
     'All',
@@ -55,11 +57,8 @@ const Dashboard = ({route, navigation}) => {
       try {
         const url = getBackendUrl();
         const response = await axios.get(url);
-        if (category.toLowerCase() === 'all') {
-          setGroupedFoods(response.data); // Set grouped data
-        } else {
-          setFoods(response.data); // Set foods data
-        }
+        setFoods(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching foods:', error);
       }
@@ -68,12 +67,15 @@ const Dashboard = ({route, navigation}) => {
     fetchFoods();
   }, [category]);
 
-  // Image and font sizes based on width
   const headerWidth = width > 400 ? 410 : width > 380 ? 350 : 335;
   const headerHeight = width > 400 ? 140 : width > 380 ? 120 : 100;
   const fontSize = width > 400 ? 39 : 30;
   const iconSize = width > 400 ? 30 : width > 380 ? 25 : 25;
   const imageSize = width > 400 ? 55 : width > 380 ? 45 : 35;
+  const foodItemWidth = width > 400 ? 210 : width > 380 ? 165 : 155;
+  const foodItemHeight = width > 400 ? 300 : width > 380 ? 230 : 210;
+  const foodImageWidth = width > 400 ? 210 : width > 380 ? 165 : 155;
+  const foodImageHeight = width > 400 ? 220 : width > 380 ? 170 : 160;
 
   const getBackendUrl = () => {
     if (Platform.OS === 'ios') {
@@ -82,7 +84,27 @@ const Dashboard = ({route, navigation}) => {
       return `http://10.0.2.2:2000/api/food/category/${category}`;
     }
   };
-
+  const getBackendLike = (id) => {
+    if (Platform.OS === 'ios') {
+      return `http://localhost:2000/api/food/liked/${id}`;
+    } else {
+      return `http://10.0.2.2:2000/api/food/liked/${id}`;
+    }
+  };
+  
+  const getUserId = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        return decodedToken.userId; // Make sure this matches your token's user ID field
+      }
+      return null;
+    } catch (error) {
+      console.error('Error getting user ID:', error);
+      return null;
+    }
+  };
   const handleLogout = async () => {
     try {
       Alert.alert(
@@ -119,7 +141,79 @@ const Dashboard = ({route, navigation}) => {
       Alert.alert('Error', 'Something went wrong during logout.');
     }
   };
+  const toggleLike = async (id) => {
+    try {
+      if (!userId) {
+        console.error('No user ID available');
+        Alert.alert('Error', 'Please log in to like items');
+        return;
+      }
 
+      const token = await AsyncStorage.getItem('userToken');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      console.log('Sending request with userId:', userId); // Debug log
+      
+      const response = await axios.post(
+        getBackendLike(id), 
+        { userId: userId }, // Explicitly send userId in request body
+        config
+      );
+
+      if (response.status === 200) {
+        setFoods((prevFoods) =>
+          prevFoods.map((food) =>
+            food._id === id 
+              ? { 
+                  ...food, 
+                  liked: !food.liked,
+                  likes: response.data.likes 
+                } 
+              : food
+          )
+        );
+      } else {
+        Alert.alert('Error', 'Failed to update like status. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      Alert.alert('Error', 'Something went wrong while toggling like.');
+    }
+  };
+  const renderFoodItem = ({item}) => (
+    <View
+      style={[
+        styles.foodItem,
+        {width: foodItemWidth, height: foodItemHeight},
+      ]}>
+      <Image
+        source={{uri: item.uri}}
+        style={[
+          styles.foodImage,
+          {width: foodImageWidth, height: foodImageHeight},
+        ]}
+      />
+      <View style={styles.foodInfoContainer}>
+        <Text style={styles.foodName}>{item.name}</Text>
+        <View style={styles.likeContainer}>
+          <Pressable onPress={() => toggleLike(item._id)}>
+            <FontAwesome
+              name={item.liked ? 'heart' : 'heart-o'}
+              size={25}
+              color={item.liked ? 'red' : 'black'}
+            />
+          </Pressable>
+          <Text style={styles.likeCount}>{item.likes || 0}</Text>
+        </View>
+      </View>
+    </View>
+  );
+  
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -150,7 +244,6 @@ const Dashboard = ({route, navigation}) => {
             />
           </TouchableOpacity>
         </View>
-
         <Text style={[styles.name, {fontSize}]}>Welcome, {name}!</Text>
         <View
           style={{
@@ -165,7 +258,6 @@ const Dashboard = ({route, navigation}) => {
             <IonIcons name="filter" size={iconSize} color={'black'} />
           </TouchableOpacity>
         </View>
-
         <View style={styles.categoryButtons}>
           <ScrollView
             horizontal
@@ -184,22 +276,13 @@ const Dashboard = ({route, navigation}) => {
             ))}
           </ScrollView>
         </View>
-
         <FlatList
-  data={foods}
-  numColumns={2}
-  keyExtractor={item => item._id} // Use the _id as the key
-  renderItem={({item}) => (
-    <View style={styles.foodItem}>
-      <Image source={{uri: item.uri}} style={styles.foodImage} />
-      <Text style={styles.foodName}>{item.name}</Text>
-      <Text style={styles.foodDesc}>{item.desc}</Text>
-      <Text style={styles.foodCategory}>Category: {item.category}</Text>
-    </View>
-  )}
-  ListEmptyComponent={<Text>No food available</Text>}
-/>
-
+          data={foods}
+          numColumns={2}
+          keyExtractor={item => item._id}
+          renderItem={renderFoodItem}
+          ListEmptyComponent={<Text>No food available</Text>}
+        />
       </SafeAreaView>
     </GestureHandlerRootView>
   );
@@ -311,14 +394,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   foodItem: {
-    flex: 1,
     alignItems: 'center',
-    margin: 10,
+    margin: 16,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 9.22,
+    elevation: 12,
   },
   foodImage: {
-    width: 100,
-    height: 100,
     borderRadius: 10,
+  },
+  foodName: {
+    color: 'black',
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  foodDesc: {
+    color: 'black',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  foodInfoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '90%',
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  likeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  likeCount: {
+    fontSize: 16,
+    color: 'black',
+    marginLeft: 5,
   },
 });
 
