@@ -129,13 +129,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#1c1c1c",
+    backgroundColor: 'white',
   },
   titleContainer: {
     flexDirection: "row",
   },
   name: {
-    color: "white",
+    color: "black",
     fontFamily: "Poppins-Regular",
   },
   nameShaala: {
@@ -149,6 +149,8 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     marginTop: 20,
+    borderColor:"black",
+    borderWidth: 1,
     padding: 15,
     borderRadius: 50,
     fontSize: 16,

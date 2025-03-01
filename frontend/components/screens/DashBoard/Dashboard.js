@@ -27,8 +27,10 @@ const Dashboard = ({route, navigation}) => {
   const {name = 'User'} = route.params || {};
   const [category, setCategory] = useState('All');
   const [foods, setFoods] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
   const [userId, setUserId] = useState(null);
   const [userPhoto, setUserPhoto] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const categories = [
     'All',
@@ -53,23 +55,36 @@ const Dashboard = ({route, navigation}) => {
     'German',
     'British',
   ];
+  
   const fetchFoods = async () => {
     try {
       const url = getBackendUrl();
       const queryUrl = userId ? `${url}?userId=${userId}` : url;
       const response = await axios.get(queryUrl);
       setFoods(response.data);
+      setFilteredFoods(response.data);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching foods:', error);
     }
   };
+  
   useEffect(() => {
-    
-    
-
     fetchFoods();
   }, [category, userId]);
+
+  // Filter foods when searchTerm changes
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setFilteredFoods(foods);
+    } else {
+      const filtered = foods.filter(food => 
+        food.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredFoods(filtered);
+    }
+  }, [searchTerm, foods]);
+  
   const toggleLike = async id => {
     try {
       // Find the food item by ID and update its like status instantly
@@ -114,10 +129,6 @@ const Dashboard = ({route, navigation}) => {
     }
   };
 
-  
-  // Inside your Dashboard component:
-  
-  // Replace your existing useEffect for loading user data with this:
   useFocusEffect(
     React.useCallback(() => {
       const loadUserData = async () => {
@@ -169,6 +180,13 @@ const Dashboard = ({route, navigation}) => {
     }, [])
   );
   
+  const handleSearch = (text) => {
+    setSearchTerm(text);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
 
   const headerWidth = width > 400 ? 410 : width > 380 ? 350 : 335;
   const headerHeight = width > 400 ? 140 : width > 380 ? 120 : 100;
@@ -191,6 +209,7 @@ const Dashboard = ({route, navigation}) => {
       return `${baseUrl}/api/food/category/${category}`;
     }
   };
+  
   const getBackendLike = id => {
     if (Platform.OS === 'ios') {
       return `http://localhost:2000/api/food/liked/${id}`;
@@ -198,13 +217,13 @@ const Dashboard = ({route, navigation}) => {
       return `http://10.0.2.2:2000/api/food/liked/${id}`;
     }
   };
+  
   useEffect(() => {
     const loadUserId = async () => {
       try {
         const token = await AsyncStorage.getItem('userToken');
         if (token) {
           const decodedToken = jwtDecode(token);
-
           console.log('Decoded token:', decodedToken); // Debug log to see token structure
           setUserId(decodedToken.userId || decodedToken.id || decodedToken._id);
         }
@@ -236,9 +255,6 @@ const Dashboard = ({route, navigation}) => {
       return null;
     }
   };
-
-  
-  
 
   const renderFoodItem = ({item}) => (
     <View
@@ -316,9 +332,19 @@ const Dashboard = ({route, navigation}) => {
             justifyContent: 'space-between',
             padding: 20,
           }}>
-          <TouchableOpacity style={[styles.searchButton, {flex: 1}]}>
-            <TextInput placeholder="Search" style={styles.searchInput} />
-          </TouchableOpacity>
+          <View style={[styles.searchButton, {flex: 1, flexDirection: 'row', alignItems: 'center'}]}>
+            <TextInput 
+              placeholder="Search food" 
+              style={styles.searchInput} 
+              value={searchTerm}
+              onChangeText={handleSearch}
+            />
+            {searchTerm.length > 0 && (
+              <TouchableOpacity onPress={clearSearch} style={styles.clearButton}>
+                <IonIcons name="close-circle" size={20} color={'gray'} />
+              </TouchableOpacity>
+            )}
+          </View>
           <TouchableOpacity style={[styles.filterButton, {marginLeft: 10}]}>
             <IonIcons name="filter" size={iconSize} color={'black'} />
           </TouchableOpacity>
@@ -342,11 +368,19 @@ const Dashboard = ({route, navigation}) => {
           </ScrollView>
         </View>
         <FlatList
-          data={foods}
+          data={filteredFoods}
           numColumns={3}
           keyExtractor={item => item._id}
           renderItem={renderFoodItem}
-          ListEmptyComponent={<Text>No food available</Text>}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>
+                {searchTerm.length > 0 
+                  ? `No food found matching "${searchTerm}"` 
+                  : "No food available"}
+              </Text>
+            </View>
+          }
         />
       </SafeAreaView>
     </GestureHandlerRootView>
@@ -402,7 +436,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     justifyContent: 'center',
-    alignItems: 'center',
     height: 40,
     shadowColor: '#000000',
     shadowOffset: {
@@ -416,7 +449,10 @@ const styles = StyleSheet.create({
   searchInput: {
     color: 'black',
     fontSize: 14,
-    width: '100%',
+    flex: 1,
+  },
+  clearButton: {
+    padding: 5,
   },
   filterButton: {
     backgroundColor: '#FF6347',
@@ -498,6 +534,20 @@ const styles = StyleSheet.create({
   likeCount: {
     fontSize: 16,
     color: 'black',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: 'gray',
+    textAlign: 'center',
+  },
+  scrollContent: {
+    paddingHorizontal: 10,
   },
 });
 
