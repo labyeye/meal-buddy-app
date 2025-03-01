@@ -11,6 +11,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import ChatGpt from './components/screens/ChatGpt/ChatGpt';
 import Settings from './components/screens/SettingsScreen/Settings';
+import Profile from './components/screens/Profile/Profile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,6 +105,11 @@ const App = () => {
         <Stack.Screen
           name="Tab1"
           component={DashboardTabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

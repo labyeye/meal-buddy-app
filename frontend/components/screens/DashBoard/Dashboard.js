@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from 'jwt-decode';
 import {
   SafeAreaView,
   Text,
@@ -56,7 +56,6 @@ const Dashboard = ({route, navigation}) => {
     const fetchFoods = async () => {
       try {
         const url = getBackendUrl();
-        // Add userId as a query parameter if available
         const queryUrl = userId ? `${url}?userId=${userId}` : url;
         const response = await axios.get(queryUrl);
         setFoods(response.data);
@@ -65,28 +64,29 @@ const Dashboard = ({route, navigation}) => {
         console.error('Error fetching foods:', error);
       }
     };
-  
+
     fetchFoods();
-  }, [category, userId]); 
+  }, [category, userId]);
 
   const headerWidth = width > 400 ? 410 : width > 380 ? 350 : 335;
   const headerHeight = width > 400 ? 140 : width > 380 ? 120 : 100;
   const fontSize = width > 400 ? 39 : 30;
   const iconSize = width > 400 ? 30 : width > 380 ? 25 : 25;
   const imageSize = width > 400 ? 55 : width > 380 ? 45 : 35;
-  const foodItemWidth = width > 400 ? 210 : width > 380 ? 165 : 155;
-  const foodItemHeight = width > 400 ? 300 : width > 380 ? 230 : 210;
-  const foodImageWidth = width > 400 ? 210 : width > 380 ? 165 : 155;
-  const foodImageHeight = width > 400 ? 220 : width > 380 ? 170 : 160;
+  const foodItemWidth = width > 400 ? 170 : width > 380 ? 165 : 155;
+  const foodItemHeight = width > 400 ? 220 : width > 380 ? 230 : 210;
+  const foodImageWidth = width > 400 ? 170 : width > 380 ? 165 : 155;
+  const foodImageHeight = width > 400 ? 155 : width > 380 ? 170 : 160;
 
   const getBackendUrl = () => {
-    const baseUrl = Platform.OS === 'ios' 
-      ? 'http://localhost:2000/api/food/category/' 
-      : 'http://10.0.2.2:2000/api/food/category/';
-    
+    const baseUrl =
+      Platform.OS === 'ios'
+        ? 'http://localhost:2000/api/food/category/'
+        : 'http://10.0.2.2:2000/api/food/category/';
+
     return `${baseUrl}${category}`;
   };
-  const getBackendLike = (id) => {
+  const getBackendLike = id => {
     if (Platform.OS === 'ios') {
       return `http://localhost:2000/api/food/liked/${id}`;
     } else {
@@ -99,27 +99,31 @@ const Dashboard = ({route, navigation}) => {
         const token = await AsyncStorage.getItem('userToken');
         if (token) {
           const decodedToken = jwtDecode(token);
-          // Make sure you're extracting the correct field from your token
-          // This might be 'id', '_id', 'userId', etc. depending on how your token is structured
-          console.log("Decoded token:", decodedToken); // Debug log to see token structure
+
+          console.log('Decoded token:', decodedToken); // Debug log to see token structure
           setUserId(decodedToken.userId || decodedToken.id || decodedToken._id);
         }
       } catch (error) {
         console.error('Error loading user ID:', error);
       }
     };
-    
+
     loadUserId();
   }, []);
-  
+
   const getUserId = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       if (token) {
         const decodedToken = jwtDecode(token);
-        console.log("Token structure:", decodedToken); // Debug to see token structure
+        console.log('Token structure:', decodedToken); // Debug to see token structure
         // Try different common ID field names
-        return decodedToken.userId || decodedToken.id || decodedToken._id || decodedToken.sub;
+        return (
+          decodedToken.userId ||
+          decodedToken.id ||
+          decodedToken._id ||
+          decodedToken.sub
+        );
       }
       return null;
     } catch (error) {
@@ -127,51 +131,16 @@ const Dashboard = ({route, navigation}) => {
       return null;
     }
   };
-  const handleLogout = async () => {
-    try {
-      Alert.alert(
-        'Logout',
-        'Are you sure you want to logout?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {
-            text: 'Logout',
-            onPress: async () => {
-              try {
-                const token = await AsyncStorage.getItem('userToken');
-                if (token) {
-                  const decodedToken = jwtDecode(token);
-                  const config = {
-                    headers: {Authorization: `Bearer ${token}`},
-                  };
-                  await axios.post(getBackendUrl(), {}, config);
-                }
-                await AsyncStorage.removeItem('userToken');
-                await AsyncStorage.removeItem('userName');
-                navigation.replace('Login');
-              } catch (error) {
-                console.error('Logout error:', error);
-                Alert.alert('Error', 'Something went wrong during logout.');
-              }
-            },
-          },
-        ],
-        {cancelable: true},
-      );
-    } catch (error) {
-      console.error('Logout error:', error);
-      Alert.alert('Error', 'Something went wrong during logout.');
-    }
-  };
-  const toggleLike = async (id) => {
+
+  const toggleLike = async id => {
     try {
       // Check and log the current userId
       console.log('Current userId state:', userId);
-      
+
       if (!userId) {
         console.error('No user ID available');
         Alert.alert('Error', 'Please log in to like items');
-        
+
         // As a fallback, try to get the userId one more time
         const fallbackId = await getUserId();
         if (!fallbackId) {
@@ -179,7 +148,7 @@ const Dashboard = ({route, navigation}) => {
         }
         setUserId(fallbackId); // Set it for future use
       }
-      
+
       const token = await AsyncStorage.getItem('userToken');
       const config = {
         headers: {
@@ -187,15 +156,15 @@ const Dashboard = ({route, navigation}) => {
           'Content-Type': 'application/json',
         },
       };
-      
+
       // Use userId from state or the fallback one we just retrieved
-      const currentUserId = userId || await getUserId();
+      const currentUserId = userId || (await getUserId());
       console.log('Sending request with userId:', currentUserId); // Debug log
-      
+
       const response = await axios.post(
-        getBackendLike(id), 
-        { userId: currentUserId }, 
-        config
+        getBackendLike(id),
+        {userId: currentUserId},
+        config,
       );
 
       // Rest of your function remains the same...
@@ -204,13 +173,10 @@ const Dashboard = ({route, navigation}) => {
       Alert.alert('Error', 'Something went wrong while toggling like.');
     }
   };
-  
+
   const renderFoodItem = ({item}) => (
     <View
-      style={[
-        styles.foodItem,
-        {width: foodItemWidth, height: foodItemHeight},
-      ]}>
+      style={[styles.foodItem, {width: foodItemWidth, height: foodItemHeight}]}>
       <Image
         source={{uri: item.uri}}
         style={[
@@ -218,8 +184,16 @@ const Dashboard = ({route, navigation}) => {
           {width: foodImageWidth, height: foodImageHeight},
         ]}
       />
-      <View style={styles.foodInfoContainer}>
-        <Text style={styles.foodName}>{item.name}</Text>
+      <View
+        style={{
+          width: '100%',
+          padding: 10,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <View style={styles.foodInfoContainer}>
+          <Text style={styles.foodName}>{item.name}</Text>
+        </View>
         <View style={styles.likeContainer}>
           <Pressable onPress={() => toggleLike(item._id)}>
             <FontAwesome
@@ -233,7 +207,7 @@ const Dashboard = ({route, navigation}) => {
       </View>
     </View>
   );
-  
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -243,7 +217,8 @@ const Dashboard = ({route, navigation}) => {
               flexDirection: 'row',
               backgroundColor: 'gray',
               borderRadius: 10,
-            }}>
+            }}
+            onPress={() => navigation.navigate('Profile')}>
             <Image
               source={require('../../../src/assets/images/male.png')}
               style={[styles.image, {width: imageSize, height: imageSize}]}
@@ -298,7 +273,7 @@ const Dashboard = ({route, navigation}) => {
         </View>
         <FlatList
           data={foods}
-          numColumns={2}
+          numColumns={3}
           keyExtractor={item => item._id}
           renderItem={renderFoodItem}
           ListEmptyComponent={<Text>No food available</Text>}
@@ -429,10 +404,11 @@ const styles = StyleSheet.create({
   },
   foodImage: {
     borderRadius: 10,
+    resizeMode: 'cover',
   },
   foodName: {
     color: 'black',
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   foodDesc: {
@@ -444,19 +420,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '90%',
-    marginTop: 10,
-    paddingHorizontal: 10,
+    width: '82%',
   },
   likeContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
   },
   likeCount: {
     fontSize: 16,
     color: 'black',
-    marginLeft: 5,
   },
 });
 

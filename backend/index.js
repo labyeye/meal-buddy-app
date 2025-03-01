@@ -25,6 +25,8 @@ const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 const foodRoutes = require('./routes/food');
 app.use('/api/food', foodRoutes);
+const profileRoutes = require('./routes/profile');
+app.use('/api/profile', profileRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
