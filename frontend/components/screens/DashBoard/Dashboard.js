@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {jwtDecode} from 'jwt-decode';
 import {
   SafeAreaView,
@@ -95,12 +96,10 @@ const Dashboard = ({route, navigation}) => {
   
       await axios.post(getBackendLike(id), { userId }, config);
   
-      // Optional: Refetch data to ensure real-time sync
       fetchFoods();
     } catch (error) {
       console.error('Error toggling like:', error);
       Alert.alert('Error', 'Could not update like. Please try again.');
-      // Revert like status on error
       setFoods(prevFoods =>
         prevFoods.map(food =>
           food._id === id
@@ -115,39 +114,61 @@ const Dashboard = ({route, navigation}) => {
     }
   };
 
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        if (token) {
-          const decodedToken = jwtDecode(token);
-          const userId =
-            decodedToken.userId || decodedToken.id || decodedToken._id;
-          setUserId(userId);
-
-          const response = await fetch(getBackendUrl('details'), {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
-          
-          const userData = await response.json(); // ✅ Parse JSON data properly
-          setUserPhoto(userData?.photo || null);
-          navigation.setParams({ name: userData?.name || 'User' });
-          console.log('User photo URL:', userData?.photo);
-
-          
+  
+  // Inside your Dashboard component:
+  
+  // Replace your existing useEffect for loading user data with this:
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadUserData = async () => {
+        try {
+          const token = await AsyncStorage.getItem('userToken');
+          if (token) {
+            const decodedToken = jwtDecode(token);
+            const userId = decodedToken.userId || decodedToken.id || decodedToken._id;
+            setUserId(userId);
+      
+            const url = getBackendUrl('details');
+            const response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            });
+      
+            if (!response.ok) {
+              throw new Error('Failed to fetch user data');
+            }
+      
+            const userData = await response.json();
+      
+            // Construct full photo URL
+            const getFullImageUrl = (relativeUrl) => {
+              if (!relativeUrl || relativeUrl.trim() === '') return null;
+              const baseUrl = Platform.OS === 'ios' ? 'http://localhost:2000' : 'http://10.0.2.2:2000';
+              const normalizedPath = relativeUrl.startsWith('/') ? relativeUrl : `/${relativeUrl}`;
+              return `${baseUrl}${normalizedPath}`;
+            }
+      
+            setUserPhoto(userData?.profilePhoto ? getFullImageUrl(userData.profilePhoto) : null);
+            navigation.setParams({ name: userData?.name || 'User' });
+      
+            console.log('Fetched user photo URL:', userPhoto);
+          }
+        } catch (error) {
+          console.error('Error loading user data:', error);
         }
-        
-      } catch (error) {
-        console.error('Error loading user data:', error);
-      }
-    };
-
-    loadUserData();
-  }, []);
+      };
+      
+      loadUserData();
+      
+      return () => {
+        // Clean up if needed
+      };
+    }, [])
+  );
+  
 
   const headerWidth = width > 400 ? 410 : width > 380 ? 350 : 335;
   const headerHeight = width > 400 ? 140 : width > 380 ? 120 : 100;
@@ -159,13 +180,16 @@ const Dashboard = ({route, navigation}) => {
   const foodImageWidth = width > 400 ? 170 : width > 380 ? 165 : 155;
   const foodImageHeight = width > 400 ? 155 : width > 380 ? 170 : 160;
 
-  const getBackendUrl = () => {
-    const baseUrl =
-      Platform.OS === 'ios'
-        ? 'http://localhost:2000/api/food/category/'
-        : 'http://10.0.2.2:2000/api/food/category/';
-
-    return `${baseUrl}${category}`;
+  const getBackendUrl = (endpoint = '') => {
+    const baseUrl = Platform.OS === 'ios' 
+      ? 'http://localhost:2000' 
+      : 'http://10.0.2.2:2000';
+  
+    if (endpoint === 'details') {
+      return `${baseUrl}/api/profile/details`;
+    } else {
+      return `${baseUrl}/api/food/category/${category}`;
+    }
   };
   const getBackendLike = id => {
     if (Platform.OS === 'ios') {
