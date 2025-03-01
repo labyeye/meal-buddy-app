@@ -27,6 +27,7 @@ const Dashboard = ({route, navigation}) => {
   const [category, setCategory] = useState('All');
   const [foods, setFoods] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [userPhoto, setUserPhoto] = useState(null);
 
   const categories = [
     'All',
@@ -51,22 +52,102 @@ const Dashboard = ({route, navigation}) => {
     'German',
     'British',
   ];
-
+  const fetchFoods = async () => {
+    try {
+      const url = getBackendUrl();
+      const queryUrl = userId ? `${url}?userId=${userId}` : url;
+      const response = await axios.get(queryUrl);
+      setFoods(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching foods:', error);
+    }
+  };
   useEffect(() => {
-    const fetchFoods = async () => {
-      try {
-        const url = getBackendUrl();
-        const queryUrl = userId ? `${url}?userId=${userId}` : url;
-        const response = await axios.get(queryUrl);
-        setFoods(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Error fetching foods:', error);
-      }
-    };
+    
+    
 
     fetchFoods();
   }, [category, userId]);
+  const toggleLike = async id => {
+    try {
+      // Find the food item by ID and update its like status instantly
+      setFoods(prevFoods =>
+        prevFoods.map(food =>
+          food._id === id
+            ? {
+                ...food,
+                liked: !food.liked,
+                likes: food.liked ? food.likes - 1 : food.likes + 1,
+              }
+            : food
+        )
+      );
+  
+      // Send the like/unlike request to the backend
+      const token = await AsyncStorage.getItem('userToken');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+  
+      await axios.post(getBackendLike(id), { userId }, config);
+  
+      // Optional: Refetch data to ensure real-time sync
+      fetchFoods();
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      Alert.alert('Error', 'Could not update like. Please try again.');
+      // Revert like status on error
+      setFoods(prevFoods =>
+        prevFoods.map(food =>
+          food._id === id
+            ? {
+                ...food,
+                liked: !food.liked, // revert like state
+                likes: food.liked ? food.likes + 1 : food.likes - 1,
+              }
+            : food
+        )
+      );
+    }
+  };
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        if (token) {
+          const decodedToken = jwtDecode(token);
+          const userId =
+            decodedToken.userId || decodedToken.id || decodedToken._id;
+          setUserId(userId);
+
+          const response = await fetch(getBackendUrl('details'), {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          const userData = await response.json(); // ✅ Parse JSON data properly
+          setUserPhoto(userData?.photo || null);
+          navigation.setParams({ name: userData?.name || 'User' });
+          console.log('User photo URL:', userData?.photo);
+
+          
+        }
+        
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      }
+    };
+
+    loadUserData();
+  }, []);
 
   const headerWidth = width > 400 ? 410 : width > 380 ? 350 : 335;
   const headerHeight = width > 400 ? 140 : width > 380 ? 120 : 100;
@@ -132,47 +213,8 @@ const Dashboard = ({route, navigation}) => {
     }
   };
 
-  const toggleLike = async id => {
-    try {
-      // Check and log the current userId
-      console.log('Current userId state:', userId);
-
-      if (!userId) {
-        console.error('No user ID available');
-        Alert.alert('Error', 'Please log in to like items');
-
-        // As a fallback, try to get the userId one more time
-        const fallbackId = await getUserId();
-        if (!fallbackId) {
-          return; // Still no userId available
-        }
-        setUserId(fallbackId); // Set it for future use
-      }
-
-      const token = await AsyncStorage.getItem('userToken');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      };
-
-      // Use userId from state or the fallback one we just retrieved
-      const currentUserId = userId || (await getUserId());
-      console.log('Sending request with userId:', currentUserId); // Debug log
-
-      const response = await axios.post(
-        getBackendLike(id),
-        {userId: currentUserId},
-        config,
-      );
-
-      // Rest of your function remains the same...
-    } catch (error) {
-      console.error('Error toggling like:', error);
-      Alert.alert('Error', 'Something went wrong while toggling like.');
-    }
-  };
+  
+  
 
   const renderFoodItem = ({item}) => (
     <View
@@ -220,7 +262,11 @@ const Dashboard = ({route, navigation}) => {
             }}
             onPress={() => navigation.navigate('Profile')}>
             <Image
-              source={require('../../../src/assets/images/male.png')}
+              source={
+                userPhoto
+                  ? {uri: userPhoto}
+                  : require('../../../src/assets/images/male.png')
+              }
               style={[styles.image, {width: imageSize, height: imageSize}]}
             />
           </TouchableOpacity>

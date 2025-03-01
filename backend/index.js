@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const path = require('path');
+
 dotenv.config();
 
 const app = express();
@@ -27,6 +29,7 @@ const foodRoutes = require('./routes/food');
 app.use('/api/food', foodRoutes);
 const profileRoutes = require('./routes/profile');
 app.use('/api/profile', profileRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
