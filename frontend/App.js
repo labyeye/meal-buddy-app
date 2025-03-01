@@ -10,6 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import ChatGpt from './components/screens/ChatGpt/ChatGpt';
+import Settings from './components/screens/SettingsScreen/Settings';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -38,7 +39,7 @@ const DashboardTabs = () => (
     />
     <Tab.Screen
       name="Settings"
-      component={Dashboard}
+      component={Settings}
       options={{
         headerShown: false,
         tabBarIcon: ({color, size}) => (
@@ -70,44 +71,41 @@ const App = () => {
     checkAuthStatus();
   }, []);
 
+
   if (isLoading) {
     return null;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {isAuthenticated ? (
-          <Stack.Screen
-            name="Dashboard"
-            component={DashboardTabs}
-            options={{headerShown: false}}
-          />
-        ) : (
-          <>
-          
-            <Stack.Screen
-              name="Home"
-              component={Home}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="SignUp"
-              component={Signup}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Forgot"
-              component={Forgot}
-              options={{headerShown: false}}
-            />
-          </>
-        )}
+      <Stack.Navigator
+        initialRouteName={isAuthenticated ? 'Tab1' : 'Home'} // Conditional routing
+      >
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={Signup}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Forgot"
+          component={Forgot}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Tab1"
+          component={DashboardTabs}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

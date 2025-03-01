@@ -47,7 +47,6 @@ const handleLogin = async () => {
   try {
     const response = await axios.post(getBackendUrl(), { email, password });
     AsyncStorage.setItem("userToken", response.data.token); 
-    
     navigation.navigate("Tab1");
   } catch (err) {
     const error = err.response?.data?.message || "Something went wrong. Please try again.";

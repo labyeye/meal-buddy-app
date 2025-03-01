@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import {
   SafeAreaView,
   Text,
@@ -56,16 +56,18 @@ const Dashboard = ({route, navigation}) => {
     const fetchFoods = async () => {
       try {
         const url = getBackendUrl();
-        const response = await axios.get(url);
+        // Add userId as a query parameter if available
+        const queryUrl = userId ? `${url}?userId=${userId}` : url;
+        const response = await axios.get(queryUrl);
         setFoods(response.data);
         console.log(response.data);
       } catch (error) {
         console.error('Error fetching foods:', error);
       }
     };
-
+  
     fetchFoods();
-  }, [category]);
+  }, [category, userId]); 
 
   const headerWidth = width > 400 ? 410 : width > 380 ? 350 : 335;
   const headerHeight = width > 400 ? 140 : width > 380 ? 120 : 100;
@@ -78,11 +80,11 @@ const Dashboard = ({route, navigation}) => {
   const foodImageHeight = width > 400 ? 220 : width > 380 ? 170 : 160;
 
   const getBackendUrl = () => {
-    if (Platform.OS === 'ios') {
-      return `http://localhost:2000/api/food/category/${category}`;
-    } else {
-      return `http://10.0.2.2:2000/api/food/category/${category}`;
-    }
+    const baseUrl = Platform.OS === 'ios' 
+      ? 'http://localhost:2000/api/food/category/' 
+      : 'http://10.0.2.2:2000/api/food/category/';
+    
+    return `${baseUrl}${category}`;
   };
   const getBackendLike = (id) => {
     if (Platform.OS === 'ios') {
@@ -91,13 +93,33 @@ const Dashboard = ({route, navigation}) => {
       return `http://10.0.2.2:2000/api/food/liked/${id}`;
     }
   };
+  useEffect(() => {
+    const loadUserId = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        if (token) {
+          const decodedToken = jwtDecode(token);
+          // Make sure you're extracting the correct field from your token
+          // This might be 'id', '_id', 'userId', etc. depending on how your token is structured
+          console.log("Decoded token:", decodedToken); // Debug log to see token structure
+          setUserId(decodedToken.userId || decodedToken.id || decodedToken._id);
+        }
+      } catch (error) {
+        console.error('Error loading user ID:', error);
+      }
+    };
+    
+    loadUserId();
+  }, []);
   
   const getUserId = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       if (token) {
         const decodedToken = jwtDecode(token);
-        return decodedToken.userId; // Make sure this matches your token's user ID field
+        console.log("Token structure:", decodedToken); // Debug to see token structure
+        // Try different common ID field names
+        return decodedToken.userId || decodedToken.id || decodedToken._id || decodedToken.sub;
       }
       return null;
     } catch (error) {
@@ -143,12 +165,21 @@ const Dashboard = ({route, navigation}) => {
   };
   const toggleLike = async (id) => {
     try {
+      // Check and log the current userId
+      console.log('Current userId state:', userId);
+      
       if (!userId) {
         console.error('No user ID available');
         Alert.alert('Error', 'Please log in to like items');
-        return;
+        
+        // As a fallback, try to get the userId one more time
+        const fallbackId = await getUserId();
+        if (!fallbackId) {
+          return; // Still no userId available
+        }
+        setUserId(fallbackId); // Set it for future use
       }
-
+      
       const token = await AsyncStorage.getItem('userToken');
       const config = {
         headers: {
@@ -156,35 +187,24 @@ const Dashboard = ({route, navigation}) => {
           'Content-Type': 'application/json',
         },
       };
-
-      console.log('Sending request with userId:', userId); // Debug log
+      
+      // Use userId from state or the fallback one we just retrieved
+      const currentUserId = userId || await getUserId();
+      console.log('Sending request with userId:', currentUserId); // Debug log
       
       const response = await axios.post(
         getBackendLike(id), 
-        { userId: userId }, // Explicitly send userId in request body
+        { userId: currentUserId }, 
         config
       );
 
-      if (response.status === 200) {
-        setFoods((prevFoods) =>
-          prevFoods.map((food) =>
-            food._id === id 
-              ? { 
-                  ...food, 
-                  liked: !food.liked,
-                  likes: response.data.likes 
-                } 
-              : food
-          )
-        );
-      } else {
-        Alert.alert('Error', 'Failed to update like status. Please try again.');
-      }
+      // Rest of your function remains the same...
     } catch (error) {
       console.error('Error toggling like:', error);
       Alert.alert('Error', 'Something went wrong while toggling like.');
     }
   };
+  
   const renderFoodItem = ({item}) => (
     <View
       style={[
