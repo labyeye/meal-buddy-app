@@ -13,6 +13,8 @@ import ChatGpt from './components/screens/ChatGpt/ChatGpt';
 import Settings from './components/screens/SettingsScreen/Settings';
 import Profile from './components/screens/Profile/Profile';
 import FoodPage from './components/screens/Food Page/FoodPage';
+import Community from './components/screens/Community/Community';
+import AddDish from './components/screens/AddDish/AddDish';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,6 +28,16 @@ const DashboardTabs = () => (
         headerShown: false,
         tabBarIcon: ({color, size}) => (
           <IonIcons name="home-outline" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Community"
+      component={Community}
+      options={{
+        headerShown: false,
+        tabBarIcon: ({color, size}) => (
+          <IonIcons name="people-circle-outline" size={size} color={color} />
         ),
       }}
     />
@@ -49,6 +61,7 @@ const DashboardTabs = () => (
         ),
       }}
     />
+    
   </Tab.Navigator>
 );
 
@@ -115,6 +128,11 @@ const App = () => {
         <Stack.Screen
           name="FoodPage"
           component={FoodPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddDish"
+          component={AddDish}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
