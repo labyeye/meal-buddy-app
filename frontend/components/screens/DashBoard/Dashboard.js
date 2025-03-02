@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {jwtDecode} from 'jwt-decode';
 import {
   SafeAreaView,
@@ -55,7 +55,7 @@ const Dashboard = ({route, navigation}) => {
     'German',
     'British',
   ];
-  
+
   const fetchFoods = async () => {
     try {
       const url = getBackendUrl();
@@ -68,23 +68,25 @@ const Dashboard = ({route, navigation}) => {
       console.error('Error fetching foods:', error);
     }
   };
-  
-  useEffect(() => {
-    fetchFoods();
-  }, [category, userId]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFoods();
+    }, [category, userId]),
+  );
 
   // Filter foods when searchTerm changes
   useEffect(() => {
     if (searchTerm.trim() === '') {
       setFilteredFoods(foods);
     } else {
-      const filtered = foods.filter(food => 
-        food.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = foods.filter(food =>
+        food.name.toLowerCase().includes(searchTerm.toLowerCase()),
       );
       setFilteredFoods(filtered);
     }
   }, [searchTerm, foods]);
-  
+
   const toggleLike = async id => {
     try {
       // Find the food item by ID and update its like status instantly
@@ -96,10 +98,10 @@ const Dashboard = ({route, navigation}) => {
                 liked: !food.liked,
                 likes: food.liked ? food.likes - 1 : food.likes + 1,
               }
-            : food
-        )
+            : food,
+        ),
       );
-  
+
       // Send the like/unlike request to the backend
       const token = await AsyncStorage.getItem('userToken');
       const config = {
@@ -108,9 +110,9 @@ const Dashboard = ({route, navigation}) => {
           'Content-Type': 'application/json',
         },
       };
-  
-      await axios.post(getBackendLike(id), { userId }, config);
-  
+
+      await axios.post(getBackendLike(id), {userId}, config);
+
       fetchFoods();
     } catch (error) {
       console.error('Error toggling like:', error);
@@ -123,8 +125,8 @@ const Dashboard = ({route, navigation}) => {
                 liked: !food.liked, // revert like state
                 likes: food.liked ? food.likes + 1 : food.likes - 1,
               }
-            : food
-        )
+            : food,
+        ),
       );
     }
   };
@@ -136,9 +138,10 @@ const Dashboard = ({route, navigation}) => {
           const token = await AsyncStorage.getItem('userToken');
           if (token) {
             const decodedToken = jwtDecode(token);
-            const userId = decodedToken.userId || decodedToken.id || decodedToken._id;
+            const userId =
+              decodedToken.userId || decodedToken.id || decodedToken._id;
             setUserId(userId);
-      
+
             const url = getBackendUrl('details');
             const response = await fetch(url, {
               method: 'GET',
@@ -147,40 +150,49 @@ const Dashboard = ({route, navigation}) => {
                 'Content-Type': 'application/json',
               },
             });
-      
+
             if (!response.ok) {
               throw new Error('Failed to fetch user data');
             }
-      
+
             const userData = await response.json();
-      
+
             // Construct full photo URL
-            const getFullImageUrl = (relativeUrl) => {
+            const getFullImageUrl = relativeUrl => {
               if (!relativeUrl || relativeUrl.trim() === '') return null;
-              const baseUrl = Platform.OS === 'ios' ? 'http://localhost:2000' : 'http://10.0.2.2:2000';
-              const normalizedPath = relativeUrl.startsWith('/') ? relativeUrl : `/${relativeUrl}`;
+              const baseUrl =
+                Platform.OS === 'ios'
+                  ? 'http://localhost:2000'
+                  : 'http://10.0.2.2:2000';
+              const normalizedPath = relativeUrl.startsWith('/')
+                ? relativeUrl
+                : `/${relativeUrl}`;
               return `${baseUrl}${normalizedPath}`;
-            }
-      
-            setUserPhoto(userData?.profilePhoto ? getFullImageUrl(userData.profilePhoto) : null);
-            navigation.setParams({ name: userData?.name || 'User' });
-      
+            };
+
+            setUserPhoto(
+              userData?.profilePhoto
+                ? getFullImageUrl(userData.profilePhoto)
+                : null,
+            );
+            navigation.setParams({name: userData?.name || 'User'});
+
             console.log('Fetched user photo URL:', userPhoto);
           }
         } catch (error) {
           console.error('Error loading user data:', error);
         }
       };
-      
+
       loadUserData();
-      
+
       return () => {
         // Clean up if needed
       };
-    }, [])
+    }, []),
   );
-  
-  const handleSearch = (text) => {
+
+  const handleSearch = text => {
     setSearchTerm(text);
   };
 
@@ -199,17 +211,16 @@ const Dashboard = ({route, navigation}) => {
   const foodImageHeight = width > 400 ? 155 : width > 380 ? 170 : 160;
 
   const getBackendUrl = (endpoint = '') => {
-    const baseUrl = Platform.OS === 'ios' 
-      ? 'http://localhost:2000' 
-      : 'http://10.0.2.2:2000';
-  
+    const baseUrl =
+      Platform.OS === 'ios' ? 'http://localhost:2000' : 'http://10.0.2.2:2000';
+
     if (endpoint === 'details') {
       return `${baseUrl}/api/profile/details`;
     } else {
       return `${baseUrl}/api/food/category/${category}`;
     }
   };
-  
+
   const getBackendLike = id => {
     if (Platform.OS === 'ios') {
       return `http://localhost:2000/api/food/liked/${id}`;
@@ -217,7 +228,7 @@ const Dashboard = ({route, navigation}) => {
       return `http://10.0.2.2:2000/api/food/liked/${id}`;
     }
   };
-  
+
   useEffect(() => {
     const loadUserId = async () => {
       try {
@@ -257,7 +268,27 @@ const Dashboard = ({route, navigation}) => {
   };
 
   const renderFoodItem = ({item}) => (
-    <View
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('FoodPage', {
+          foodId: item._id,
+          foodPreview: item,
+          onLikeToggle: (id, liked, likesCount) => {
+            // Update the foods state with new like information
+            setFoods(prevFoods =>
+              prevFoods.map(food =>
+                food._id === id
+                  ? {
+                      ...food,
+                      liked: liked,
+                      likes: likesCount,
+                    }
+                  : food,
+              ),
+            );
+          },
+        })
+      }
       style={[styles.foodItem, {width: foodItemWidth, height: foodItemHeight}]}>
       <Image
         source={{uri: item.uri}}
@@ -277,7 +308,11 @@ const Dashboard = ({route, navigation}) => {
           <Text style={styles.foodName}>{item.name}</Text>
         </View>
         <View style={styles.likeContainer}>
-          <Pressable onPress={() => toggleLike(item._id)}>
+          <Pressable
+            onPress={e => {
+              e.stopPropagation(); // Prevent navigation when pressing the heart
+              toggleLike(item._id);
+            }}>
             <FontAwesome
               name={item.liked ? 'heart' : 'heart-o'}
               size={25}
@@ -287,7 +322,7 @@ const Dashboard = ({route, navigation}) => {
           <Text style={styles.likeCount}>{item.likes || 0}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -332,15 +367,21 @@ const Dashboard = ({route, navigation}) => {
             justifyContent: 'space-between',
             padding: 20,
           }}>
-          <View style={[styles.searchButton, {flex: 1, flexDirection: 'row', alignItems: 'center'}]}>
-            <TextInput 
-              placeholder="Search food" 
-              style={styles.searchInput} 
+          <View
+            style={[
+              styles.searchButton,
+              {flex: 1, flexDirection: 'row', alignItems: 'center'},
+            ]}>
+            <TextInput
+              placeholder="Search food"
+              style={styles.searchInput}
               value={searchTerm}
               onChangeText={handleSearch}
             />
             {searchTerm.length > 0 && (
-              <TouchableOpacity onPress={clearSearch} style={styles.clearButton}>
+              <TouchableOpacity
+                onPress={clearSearch}
+                style={styles.clearButton}>
                 <IonIcons name="close-circle" size={20} color={'gray'} />
               </TouchableOpacity>
             )}
@@ -375,9 +416,9 @@ const Dashboard = ({route, navigation}) => {
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Text style={styles.emptyText}>
-                {searchTerm.length > 0 
-                  ? `No food found matching "${searchTerm}"` 
-                  : "No food available"}
+                {searchTerm.length > 0
+                  ? `No food found matching "${searchTerm}"`
+                  : 'No food available'}
               </Text>
             </View>
           }

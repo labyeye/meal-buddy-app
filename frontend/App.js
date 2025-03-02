@@ -12,6 +12,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import ChatGpt from './components/screens/ChatGpt/ChatGpt';
 import Settings from './components/screens/SettingsScreen/Settings';
 import Profile from './components/screens/Profile/Profile';
+import FoodPage from './components/screens/Food Page/FoodPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -72,7 +73,6 @@ const App = () => {
     checkAuthStatus();
   }, []);
 
-
   if (isLoading) {
     return null;
   }
@@ -85,32 +85,37 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SignUp"
           component={Signup}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Forgot"
           component={Forgot}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Tab1"
           component={DashboardTabs}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Profile"
           component={Profile}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FoodPage"
+          component={FoodPage}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
