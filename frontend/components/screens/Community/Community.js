@@ -25,14 +25,12 @@ const Community = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [userId, setUserId] = useState(null);
 
-  // Function to get backend URL
   const getBaseUrl = () => {
     return Platform.OS === 'ios'
       ? 'http://localhost:2000'
       : 'http://10.0.2.2:2000';
   };
 
-  // Fetch user posts
   const fetchPosts = async () => {
     try {
       setLoading(true);
@@ -47,13 +45,11 @@ const Community = ({navigation}) => {
     }
   };
 
-  // Handle refreshing
   const onRefresh = () => {
     setRefreshing(true);
     fetchPosts();
   };
 
-  // Get user ID from token
   const getUserId = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -74,10 +70,8 @@ const Community = ({navigation}) => {
     }
   };
 
-  // Toggle like on a post
   const toggleLike = async postId => {
     try {
-      // Optimistic update of UI
       setPosts(prevPosts =>
         prevPosts.map(post =>
           post._id === postId
@@ -90,7 +84,6 @@ const Community = ({navigation}) => {
         ),
       );
 
-      // Send request to server
       const token = await AsyncStorage.getItem('userToken');
       const config = {
         headers: {
@@ -108,7 +101,6 @@ const Community = ({navigation}) => {
       console.error('Error toggling like:', error);
       Alert.alert('Error', 'Could not update like. Please try again.');
 
-      // Revert the optimistic update
       setPosts(prevPosts =>
         prevPosts.map(post =>
           post._id === postId
@@ -123,7 +115,6 @@ const Community = ({navigation}) => {
     }
   };
 
-  // Load data on component mount
   useEffect(() => {
     const loadData = async () => {
       await getUserId();
@@ -133,7 +124,6 @@ const Community = ({navigation}) => {
     loadData();
   }, []);
 
-  // Render each post item
   const renderPostItem = ({item}) => (
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
@@ -167,6 +157,7 @@ const Community = ({navigation}) => {
       <View style={styles.postContent}>
         <Text style={styles.dishName}>{item.dishName}</Text>
         <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.category}>{item.category}</Text>
 
         <View style={styles.interactionContainer}>
           <TouchableOpacity
@@ -369,6 +360,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  category: {
+    fontSize: 16,
+    color: '#444',
+    marginBottom: 15,
   },
 });
 
