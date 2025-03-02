@@ -21,8 +21,17 @@ const foodSchema = new mongoose.Schema(
       required: false,
     },
     usersLiked: {
-      type: [String], default: []
+      type: [String], 
+      default: []
     },
+    ingredients: {
+      type: [{
+        name: { type: String, required: true },
+        quantity: { type: String, required: false },
+        note: { type: String, required: false }
+      }],
+      default: []
+    }
   },
   {timestamps: true},
 );

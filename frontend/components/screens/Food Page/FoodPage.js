@@ -1,52 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { 
-  Text, 
-  View, 
-  Image, 
-  StyleSheet, 
-  ScrollView, 
-  TouchableOpacity, 
+import React, {useState, useEffect} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
-  Alert
-} from "react-native";
+  Alert,
+} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
-const FoodPage = ({ route, navigation }) => {
-  const { foodId, foodPreview } = route.params || {};
+const FoodPage = ({route, navigation}) => {
+  const {foodId, foodPreview} = route.params || {};
   const [food, setFood] = useState(foodPreview || null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
-  const { onLikeToggle } = route.params || {};
+  const {onLikeToggle} = route.params || {};
 
-  const getBackendUrl = (id) => {
-    const baseUrl = Platform.OS === 'ios' 
-      ? 'http://localhost:2000' 
-      : 'http://10.0.2.2:2000';
-    
+  const getBackendUrl = id => {
+    const baseUrl =
+      Platform.OS === 'ios' ? 'http://localhost:2000' : 'http://10.0.2.2:2000';
+
     return `${baseUrl}/api/food/${id}`;
   };
 
   const toggleLike = async () => {
     if (!userId || !food) return;
-    
+
     try {
       setFood(prevFood => ({
         ...prevFood,
         liked: !prevFood.liked,
-        likes: prevFood.liked ? prevFood.likes - 1 : prevFood.likes + 1
+        likes: prevFood.liked ? prevFood.likes - 1 : prevFood.likes + 1,
       }));
 
-      const baseUrl = Platform.OS === 'ios' 
-        ? 'http://localhost:2000' 
-        : 'http://10.0.2.2:2000';
+      const baseUrl =
+        Platform.OS === 'ios'
+          ? 'http://localhost:2000'
+          : 'http://10.0.2.2:2000';
       const likeUrl = `${baseUrl}/api/food/liked/${food._id}`;
-      
+
       const token = await AsyncStorage.getItem('userToken');
       const config = {
         headers: {
@@ -55,20 +55,24 @@ const FoodPage = ({ route, navigation }) => {
         },
       };
 
-      await axios.post(likeUrl, { userId }, config);
+      await axios.post(likeUrl, {userId}, config);
     } catch (error) {
       console.error('Error toggling like:', error);
       Alert.alert('Error', 'Could not update like. Please try again.');
-      
+
       setFood(prevFood => ({
         ...prevFood,
         liked: !prevFood.liked,
-        likes: prevFood.liked ? prevFood.likes - 1 : prevFood.likes + 1
+        likes: prevFood.liked ? prevFood.likes - 1 : prevFood.likes + 1,
       }));
     }
     if (onLikeToggle) {
-        onLikeToggle(food._id, !food.liked, food.liked ? food.likes - 1 : food.likes + 1);
-      }
+      onLikeToggle(
+        food._id,
+        !food.liked,
+        food.liked ? food.likes - 1 : food.likes + 1,
+      );
+    }
   };
 
   useEffect(() => {
@@ -83,7 +87,7 @@ const FoodPage = ({ route, navigation }) => {
         console.error('Error getting user ID:', error);
       }
     };
-    
+
     getUserId();
   }, []);
 
@@ -94,38 +98,40 @@ const FoodPage = ({ route, navigation }) => {
         setLoading(false);
         return;
       }
-  
+
       // Use foodPreview as initial state
       if (foodPreview) {
         setFood(foodPreview);
       }
-  
+
       try {
         if (foodId) {
           setLoading(true);
           const token = await AsyncStorage.getItem('userToken');
-          const config = token ? {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          } : {};
-  
+          const config = token
+            ? {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              }
+            : {};
+
           const response = await axios.get(getBackendUrl(foodId), config);
-          
+
           // Preserve the liked status from foodPreview if it exists
           setFood(prevFood => {
             const newData = {...response.data};
-            
+
             // If we already have a food with liked status, preserve that status
             if (prevFood && 'liked' in prevFood) {
               newData.liked = prevFood.liked;
               newData.likes = prevFood.likes;
             }
-            
+
             return newData;
           });
-          
+
           setError(null);
         }
       } catch (err) {
@@ -138,7 +144,7 @@ const FoodPage = ({ route, navigation }) => {
         setLoading(false);
       }
     };
-  
+
     fetchFoodDetails();
   }, [foodId, foodPreview]);
 
@@ -155,7 +161,7 @@ const FoodPage = ({ route, navigation }) => {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorText}>{error}</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
           <Text style={styles.backButtonText}>Go Back</Text>
@@ -168,7 +174,7 @@ const FoodPage = ({ route, navigation }) => {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorText}>Food information not available</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
           <Text style={styles.backButtonText}>Go Back</Text>
@@ -184,8 +190,7 @@ const FoodPage = ({ route, navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <IonIcons name="arrow-back" size={28} color="black" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Food Details</Text>
-          <View style={{ width: 28 }} /> 
+          <View style={{width: 28}} />
         </View>
 
         {loading && food && (
@@ -195,7 +200,7 @@ const FoodPage = ({ route, navigation }) => {
         )}
 
         <Image
-          source={{ uri: food.uri }}
+          source={{uri: food.uri}}
           style={styles.foodImage}
           resizeMode="cover"
         />
@@ -221,15 +226,43 @@ const FoodPage = ({ route, navigation }) => {
 
           <Text style={styles.sectionTitle}>Description</Text>
           <Text style={styles.descriptionText}>
-            {food.desc || "No description available for this delicious dish. Try it to experience the flavor!"}
+            {food.desc ||
+              'No description available for this delicious dish. Try it to experience the flavor!'}
           </Text>
 
           {food.ingredients && food.ingredients.length > 0 && (
             <>
               <Text style={styles.sectionTitle}>Ingredients</Text>
+
+              {/* Marinade Section */}
+              <Text style={styles.subsectionTitle}>
+                For the Chicken Marinade:
+              </Text>
               <View style={styles.ingredientsList}>
-                {food.ingredients.map((ingredient, index) => (
-                  <Text key={index} style={styles.ingredientItem}>• {ingredient}</Text>
+                {food.ingredients.slice(0, 9).map((ingredient, index) => (
+                  <View key={index} style={styles.ingredientRow}>
+                    <Text style={styles.ingredientItem}>
+                      • {ingredient.name}
+                      {ingredient.quantity ? ` (${ingredient.quantity})` : ''}
+                      {ingredient.note ? ` - ${ingredient.note}` : ''}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+
+              {/* Gravy Section */}
+              <Text style={styles.subsectionTitle}>
+                For the Butter Chicken Gravy:
+              </Text>
+              <View style={styles.ingredientsList}>
+                {food.ingredients.slice(9).map((ingredient, index) => (
+                  <View key={index} style={styles.ingredientRow}>
+                    <Text style={styles.ingredientItem}>
+                      • {ingredient.name}
+                      {ingredient.quantity ? ` (${ingredient.quantity})` : ''}
+                      {ingredient.note ? ` - ${ingredient.note}` : ''}
+                    </Text>
+                  </View>
                 ))}
               </View>
             </>
@@ -239,15 +272,21 @@ const FoodPage = ({ route, navigation }) => {
           <View style={styles.detailsContainer}>
             <View style={styles.detailItem}>
               <IonIcons name="timer-outline" size={24} color="#FF6347" />
-              <Text style={styles.detailText}>{food.prepTime || "30 mins"}</Text>
+              <Text style={styles.detailText}>
+                {food.time || '30 mins'}
+              </Text>
             </View>
             <View style={styles.detailItem}>
               <IonIcons name="flame-outline" size={24} color="#FF6347" />
-              <Text style={styles.detailText}>{food.calories || "Unknown"} cal</Text>
+              <Text style={styles.detailText}>
+                {food.calories || 'Unknown'} cal
+              </Text>
             </View>
             <View style={styles.detailItem}>
               <IonIcons name="star-outline" size={24} color="#FF6347" />
-              <Text style={styles.detailText}>Rating: {food.rating || "N/A"}</Text>
+              <Text style={styles.detailText}>
+                Rating: {food.rating || 'N/A'}
+              </Text>
             </View>
           </View>
         </View>
@@ -396,7 +435,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  ingredientRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  subsectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#555',
+    marginTop: 10,
+    marginBottom: 8,
+    marginLeft: 5,
+  },
 });
 
 export default FoodPage;
